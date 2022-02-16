@@ -7,6 +7,7 @@
 namespace Tests\Foundation;
 
 use CodeSinging\PinAdmin\Foundation\Application;
+use Illuminate\Config\Repository;
 use Tests\TestCase;
 
 class ApplicationTest extends TestCase
@@ -114,5 +115,18 @@ class ApplicationTest extends TestCase
         self::assertInstanceOf(Application::class, (new Application())->boot('admin'));
         self::assertEquals('admin', (new Application())->boot('admin')->name());
         self::assertEquals('shop', (new Application())->boot('shop')->name());
+    }
+
+    public function testConfig()
+    {
+        $app = new Application('admin');
+
+        $app->config(['title' => 'Title']);
+
+        self::assertInstanceOf(Repository::class, $app->config());
+        self::assertIsArray($app->config()->all());
+        self::assertEquals('Title', $app->config('title'));
+        self::assertNull($app->config('key_not_exists'));
+        self::assertEquals('Default', $app->config('key_not_exists', 'Default'));
     }
 }

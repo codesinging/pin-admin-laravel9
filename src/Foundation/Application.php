@@ -6,6 +6,7 @@
 
 namespace CodeSinging\PinAdmin\Foundation;
 
+use Illuminate\Config\Repository;
 use Illuminate\Support\Str;
 
 class Application
@@ -83,6 +84,13 @@ class Application
      * @var string
      */
     protected string $publicDirectory;
+
+    /**
+     * PinAdmin 应用配置仓库
+     *
+     * @var Repository
+     */
+    protected Repository $config;
 
     /**
      * @param string|null $name
@@ -303,6 +311,19 @@ class Application
     }
 
     /**
+     * 初始化应用配置
+     *
+     * @return void
+     */
+    protected function initConfig()
+    {
+        if (file_exists($file = $this->path('config/app.php'))) {
+            $items = require($file);
+        }
+        $this->config = new Repository($items ?? []);
+    }
+
+    /**
      * 启动 PinAdmin 应用
      *
      * @param string $name
@@ -313,8 +334,29 @@ class Application
     {
         if (!isset($this->name) || $this->name !== $name) {
             $this->initInfo($name);
+            $this->initConfig();
         }
 
         return $this;
+    }
+
+    /**
+     * 获取或设置应用配置值，或者返回应用仓库实例
+     *
+     * @param array|string|null $key
+     * @param mixed|null $default
+     *
+     * @return Application|Repository|mixed
+     */
+    public function config(array|string $key = null, mixed $default = null)
+    {
+        if (is_null($key)) {
+            return $this->config;
+        }
+        if (is_array($key)) {
+            $this->config->set($key);
+            return $this;
+        }
+        return $this->config->get($key, $default);
     }
 }
