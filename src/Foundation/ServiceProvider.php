@@ -6,15 +6,18 @@
 
 namespace CodeSinging\PinAdmin\Foundation;
 
+use CodeSinging\PinAdmin\Console\AdminCommand;
 use CodeSinging\PinAdmin\Console\ListCommand;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /**
      * 控制台命令
+     *
      * @var array
      */
     protected array $commands = [
+        AdminCommand::class,
         ListCommand::class,
     ];
 
@@ -30,11 +33,12 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     /**
      * 启动 PinAdmin 服务
+     *
      * @return void
      */
     public function boot()
     {
-        if ($this->app->runningInConsole()){
+        if ($this->app->runningInConsole()) {
             $this->registerCommands();
         }
     }
