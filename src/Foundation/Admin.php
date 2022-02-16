@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static string publicDirectory(string ...$paths)
  * @method static string publicPath(string ...$paths)
  * @method static string getNamespace(string ...$paths)
+ * @method static array indexes()
  * @method static Application boot(string $name)
  * @method static Application|Repository|mixed config(array|string $key = null, mixed $default = null)
  * @method static string routePrefix()

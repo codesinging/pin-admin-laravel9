@@ -95,11 +95,24 @@ class Application
     protected Repository $config;
 
     /**
+     * PinAdmin 应用索引文件
+     */
+    const INDEX_FILENAME = 'indexes.php';
+
+    /**
+     * PinAdmin 应用索引
+     *
+     * @var array
+     */
+    protected array $indexes = [];
+
+    /**
      * @param string|null $name
      */
     public function __construct(string $name = null)
     {
         empty($name) or $this->boot($name);
+        $this->loadIndexes();
     }
 
     /**
@@ -323,6 +336,28 @@ class Application
             $items = require($file);
         }
         $this->config = new Repository($items ?? []);
+    }
+
+    /**
+     * 读取应用索引
+     *
+     * @return void
+     */
+    protected function loadIndexes()
+    {
+        if (file_exists($file = $this->rootPath(self::INDEX_FILENAME))) {
+            $this->indexes = require($file);
+        }
+    }
+
+    /**
+     * 返回应用索引
+     *
+     * @return array
+     */
+    public function indexes(): array
+    {
+        return $this->indexes;
     }
 
     /**
