@@ -26,6 +26,11 @@ class Application
     const LABEL = 'admin';
 
     /**
+     * PinAdmin 应用根目录
+     */
+    const ROOT_DIRECTORY = 'admins';
+
+    /**
      * 返回 PinAdmin 版本号
      *
      * @return string
@@ -56,5 +61,30 @@ class Application
     public function label(string $suffix = null, string $separator = '_'): string
     {
         return self::LABEL . ($suffix ? $separator . $suffix : '');
+    }
+
+    /**
+     * 返回 PinAdmin 应用根目录或指定子目录
+     *
+     * @param ...$paths
+     *
+     * @return string
+     */
+    public function rootDirectory(...$paths): string
+    {
+        array_unshift($paths, self::ROOT_DIRECTORY);
+        return implode(DIRECTORY_SEPARATOR, $paths);
+    }
+
+    /**
+     * 返回 PinAdmin 应用根路径或指定子路径
+     *
+     * @param ...$paths
+     *
+     * @return string
+     */
+    public function rootPath(...$paths): string
+    {
+        return base_path($this->rootDirectory(...$paths));
     }
 }
