@@ -42,4 +42,77 @@ class ApplicationTest extends TestCase
         self::assertEquals(dirname(__DIR__), (new Application())->packagePath('tests'));
         self::assertEquals(__DIR__, (new Application())->packagePath('tests', 'Foundation'));
     }
+
+    public function testName()
+    {
+        self::assertEquals('admin', (new Application('admin'))->name());
+        self::assertEquals('admin_users', (new Application('admin'))->name('users'));
+        self::assertEquals('admin-config', (new Application('admin'))->name('config', '-'));
+    }
+
+    public function testStudlyName()
+    {
+        self::assertEquals('Admin', (new Application())->boot('admin')->studlyName());
+        self::assertEquals('AdminUser', (new Application())->boot('admin')->studlyName('user'));
+    }
+
+    public function testGuard()
+    {
+        self::assertEquals('admin', (new Application('admin'))->guard());
+    }
+
+    public function testDirectory()
+    {
+        self::assertEquals('admins/user', (new Application('user'))->directory());
+        self::assertEquals('admins/user/config', (new Application('user'))->directory('config'));
+        self::assertEquals('admins/user/config/app.php', (new Application('user'))->directory('config', 'app.php'));
+    }
+
+    public function testPath()
+    {
+        self::assertEquals(base_path('admins/user'), (new Application('user'))->path());
+        self::assertEquals(base_path('admins/user/config'), (new Application('user'))->path('config'));
+        self::assertEquals(base_path('admins/user/config/app.php'), (new Application('user'))->path('config', 'app.php'));
+    }
+
+    public function testAppDirectory()
+    {
+        self::assertEquals('Admins/Admin', (new Application('admin'))->appDirectory());
+        self::assertEquals('Admins/Admin/Controllers', (new Application('admin'))->appDirectory('Controllers'));
+        self::assertEquals('Admins/Admin/Controllers/Controller.php', (new Application('admin'))->appDirectory('Controllers', 'Controller.php'));
+    }
+
+    public function testAppPath()
+    {
+        self::assertEquals(app_path('Admins/Admin'), (new Application('admin'))->appPath());
+        self::assertEquals(app_path('Admins/Admin/Controllers'), (new Application('admin'))->appPath('Controllers'));
+        self::assertEquals(app_path('Admins/Admin/Controllers/Controller.php'), (new Application('admin'))->appPath('Controllers', 'Controller.php'));
+    }
+
+    public function testPublicDirectory()
+    {
+        self::assertEquals('admins/admin', (new Application('admin'))->publicDirectory());
+        self::assertEquals('admins/admin/js', (new Application('admin'))->publicDirectory('js'));
+        self::assertEquals('admins/admin/js/app.js', (new Application('admin'))->publicDirectory('js', 'app.js'));
+    }
+
+    public function testPublicPublic()
+    {
+        self::assertEquals(public_path('admins/admin'), (new Application('admin'))->publicPath());
+        self::assertEquals(public_path('admins/admin/js'), (new Application('admin'))->publicPath('js'));
+        self::assertEquals(public_path('admins/admin/js/app.js'), (new Application('admin'))->publicPath('js', 'app.js'));
+    }
+
+    public function testGetNamespace()
+    {
+        self::assertEquals('App\\Admins\\Admin', (new Application('admin'))->getNamespace());
+        self::assertEquals('App\\Admins\\Admin\\Controllers', (new Application('admin'))->getNamespace('Controllers'));
+    }
+
+    public function testBoot()
+    {
+        self::assertInstanceOf(Application::class, (new Application())->boot('admin'));
+        self::assertEquals('admin', (new Application())->boot('admin')->name());
+        self::assertEquals('shop', (new Application())->boot('shop')->name());
+    }
 }

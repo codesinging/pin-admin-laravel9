@@ -6,6 +6,8 @@
 
 namespace CodeSinging\PinAdmin\Foundation;
 
+use Illuminate\Support\Str;
+
 class Application
 {
     /**
@@ -29,6 +31,66 @@ class Application
      * PinAdmin 应用根目录
      */
     const ROOT_DIRECTORY = 'admins';
+
+    /**
+     * PinAdmin 应用类文件根目录
+     */
+    const ROOT_APP_DIRECTORY = 'Admins';
+
+    /**
+     * PinAdmin 应用公共文件根目录
+     */
+    const ROOT_PUBLIC_DIRECTORY = 'admins';
+
+    /**
+     * PinAdmin 应用名称
+     *
+     * @var string
+     */
+    protected string $name;
+
+    /**
+     * PinAdmin 应用名称，驼峰形式
+     *
+     * @var string
+     */
+    protected string $studlyName;
+
+    /**
+     * PinAdmin 应用用户认证守护者
+     *
+     * @var string
+     */
+    protected string $guard;
+
+    /**
+     * PinAdmin 应用基础目录
+     *
+     * @var string
+     */
+    protected string $directory;
+
+    /**
+     * PinAdmin 应用类文件目录
+     *
+     * @var string
+     */
+    protected string $appDirectory;
+
+    /**
+     * PinAdmin 应用公共文件目录
+     *
+     * @var string
+     */
+    protected string $publicDirectory;
+
+    /**
+     * @param string|null $name
+     */
+    public function __construct(string $name = null)
+    {
+        empty($name) or $this->boot($name);
+    }
 
     /**
      * 返回 PinAdmin 版本号
@@ -101,4 +163,158 @@ class Application
         return implode(DIRECTORY_SEPARATOR, $paths);
     }
 
+    /**
+     * 返回 PinAdmin 应用名称
+     *
+     * @param string|null $suffix
+     * @param string $separator
+     *
+     * @return string
+     */
+    public function name(string $suffix = null, string $separator = '_'): string
+    {
+        return $this->name . ($suffix ? $separator . $suffix : '');
+    }
+
+    /**
+     * 返回 PinAdmin 驼峰形式的应用名称
+     *
+     * @param string $suffix
+     *
+     * @return string
+     */
+    public function studlyName(string $suffix = ''): string
+    {
+        return $this->studlyName . Str::studly($suffix);
+    }
+
+    /**
+     * 返回 PinAdmin 应用认证守护者
+     *
+     * @return string
+     */
+    public function guard(): string
+    {
+        return $this->guard;
+    }
+
+    /**
+     * 返回 PinAdmin 应用基础目录或者其指定子目录
+     *
+     * @param string ...$paths
+     *
+     * @return string
+     */
+    public function directory(string ...$paths): string
+    {
+        array_unshift($paths, $this->directory);
+        return implode('/', $paths);
+    }
+
+    /**
+     * 返回 PinAdmin 应用基础路径或指定的子路径
+     *
+     * @param string ...$paths
+     *
+     * @return string
+     */
+    public function path(string ...$paths): string
+    {
+        return base_path($this->directory(...$paths));
+    }
+
+    /**
+     * 返回 PinAdmin 应用的应用类文件目录或指定的子目录
+     *
+     * @param string ...$paths
+     *
+     * @return string
+     */
+    public function appDirectory(string ...$paths): string
+    {
+        array_unshift($paths, $this->appDirectory);
+        return implode('/', $paths);
+    }
+
+    /**
+     * 返回 PinAdmin 应用的应用类文件路径或指定子路径
+     *
+     * @param string ...$paths
+     *
+     * @return string
+     */
+    public function appPath(string ...$paths): string
+    {
+        return app_path($this->appDirectory(...$paths));
+    }
+
+    /**
+     * 返回 PinAdmin 应用的公共文件目录或指定的子目录
+     *
+     * @param string ...$paths
+     *
+     * @return string
+     */
+    public function publicDirectory(string ...$paths): string
+    {
+        array_unshift($paths, $this->publicDirectory);
+        return implode('/', $paths);
+    }
+
+    /**
+     * 返回 PinAdmin 应用的公共文件路径或指定子路径
+     *
+     * @param string ...$paths
+     *
+     * @return string
+     */
+    public function publicPath(string ...$paths): string
+    {
+        return public_path($this->publicDirectory(...$paths));
+    }
+
+    /**
+     * 返回 PinAdmin 应用类命名空间
+     *
+     * @param ...$paths
+     *
+     * @return string
+     */
+    public function getNamespace(...$paths): string
+    {
+        return implode('\\', ['App', str_replace('/', '\\', $this->appDirectory(...$paths))]);
+    }
+
+    /**
+     * 初始化应用基础信息
+     *
+     * @param string $name
+     *
+     * @return void
+     */
+    private function initInfo(string $name)
+    {
+        $this->name = Str::snake($name);
+        $this->studlyName = Str::studly($name);
+        $this->guard = $name;
+        $this->directory = $this->rootDirectory($this->name);
+        $this->appDirectory = self::ROOT_APP_DIRECTORY . DIRECTORY_SEPARATOR . $this->studlyName;
+        $this->publicDirectory = self::ROOT_PUBLIC_DIRECTORY . DIRECTORY_SEPARATOR . $this->name;
+    }
+
+    /**
+     * 启动 PinAdmin 应用
+     *
+     * @param string $name
+     *
+     * @return $this
+     */
+    public function boot(string $name): static
+    {
+        if (!isset($this->name) || $this->name !== $name) {
+            $this->initInfo($name);
+        }
+
+        return $this;
+    }
 }
