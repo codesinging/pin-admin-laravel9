@@ -38,6 +38,34 @@ class ApplicationTest extends TestCase
         self::assertEquals(base_path('admins' . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'config'), (new Application())->rootPath('admin', 'config'));
     }
 
+    public function testRootAppDirectory()
+    {
+        self::assertEquals('Admins', (new Application())->rootAppDirectory());
+        self::assertEquals('Admins' . DIRECTORY_SEPARATOR . 'Admin', (new Application())->rootAppDirectory('Admin'));
+        self::assertEquals('Admins' . DIRECTORY_SEPARATOR . 'Admin' . DIRECTORY_SEPARATOR . 'Controllers', (new Application())->rootAppDirectory('Admin', 'Controllers'));
+    }
+
+    public function testRootAppPath()
+    {
+        self::assertEquals(app_path('Admins'), (new Application())->rootAppPath());
+        self::assertEquals(app_path('Admins' . DIRECTORY_SEPARATOR . 'Admin'), (new Application())->rootAppPath('Admin'));
+        self::assertEquals(app_path('Admins' . DIRECTORY_SEPARATOR . 'Admin' . DIRECTORY_SEPARATOR . 'Controllers'), (new Application())->rootAppPath('Admin', 'Controllers'));
+    }
+
+    public function testRootPublicDirectory()
+    {
+        self::assertEquals('admins', (new Application())->rootPublicDirectory());
+        self::assertEquals('admins' . DIRECTORY_SEPARATOR . 'admin', (new Application())->rootPublicDirectory('admin'));
+        self::assertEquals('admins' . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'js', (new Application())->rootPublicDirectory('admin', 'js'));
+    }
+
+    public function testRootPublicPath()
+    {
+        self::assertEquals(app_path('admins'), (new Application())->rootPublicPath());
+        self::assertEquals(app_path('admins' . DIRECTORY_SEPARATOR . 'admin'), (new Application())->rootPublicPath('admin'));
+        self::assertEquals(app_path('admins' . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'js'), (new Application())->rootPublicPath('admin', 'js'));
+    }
+
     public function testPackagePath()
     {
         self::assertEquals(dirname(__DIR__), (new Application())->packagePath('tests'));

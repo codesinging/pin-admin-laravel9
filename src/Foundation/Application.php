@@ -174,6 +174,56 @@ class Application
     }
 
     /**
+     * 返回 PinAdmin 应用类文件根目录
+     *
+     * @param string|null ...$paths
+     *
+     * @return string
+     */
+    public function rootAppDirectory(?string ...$paths): string
+    {
+        array_unshift($paths, self::ROOT_APP_DIRECTORY);
+        return implode(DIRECTORY_SEPARATOR, $paths);
+    }
+
+    /**
+     * 返回 PinAdmin 应用类文件根路径或指定子路径
+     *
+     * @param string|null ...$paths
+     *
+     * @return string
+     */
+    public function rootAppPath(?string ...$paths): string
+    {
+        return app_path($this->rootAppDirectory(...$paths));
+    }
+
+    /**
+     * 返回 PinAdmin 应用公共文件根目录
+     *
+     * @param string|null ...$paths
+     *
+     * @return string
+     */
+    public function rootPublicDirectory(?string ...$paths): string
+    {
+        array_unshift($paths, self::ROOT_PUBLIC_DIRECTORY);
+        return implode(DIRECTORY_SEPARATOR, $paths);
+    }
+
+    /**
+     * 返回 PinAdmin 应用公共文件根路径或指定子路径
+     *
+     * @param string|null ...$paths
+     *
+     * @return string
+     */
+    public function rootPublicPath(?string ...$paths): string
+    {
+        return app_path($this->rootPublicDirectory(...$paths));
+    }
+
+    /**
      * 返回 PinAdmin 包路径
      *
      * @param string|null ...$paths
