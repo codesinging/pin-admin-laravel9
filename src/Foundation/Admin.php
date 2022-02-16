@@ -8,6 +8,9 @@ namespace CodeSinging\PinAdmin\Foundation;
 
 use Illuminate\Support\Facades\Facade;
 
+/**
+ * @method static string version()
+ */
 class Admin extends Facade
 {
     protected static function getFacadeAccessor(): string
