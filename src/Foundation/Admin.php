@@ -6,6 +6,7 @@
 
 namespace CodeSinging\PinAdmin\Foundation;
 
+use Closure;
 use Illuminate\Config\Repository;
 use Illuminate\Support\Facades\Facade;
 
@@ -38,6 +39,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static string asset(?string ...$paths)
  * @method static string mix(string $path)
  * @method static string homeUrl(bool $withDomain = false)
+ * @method static Application routeGroup(Closure $closure, bool $auth = true)
  */
 class Admin extends Facade
 {

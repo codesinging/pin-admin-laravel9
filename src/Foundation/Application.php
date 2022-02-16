@@ -6,9 +6,11 @@
 
 namespace CodeSinging\PinAdmin\Foundation;
 
+use Closure;
 use Exception;
 use Illuminate\Config\Repository;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
 class Application
@@ -516,5 +518,24 @@ class Application
             return (Request::secure() ? 'https://' : 'http://') . Request::server('HTTP_HOST') . '/' . $this->routePrefix();
         }
         return '/' . $this->routePrefix();
+    }
+
+    /**
+     * 设置 PinAdmin 应用路由组
+     *
+     * @param Closure $closure
+     * @param bool $auth
+     *
+     * @return Application
+     */
+    public function routeGroup(Closure $closure, bool $auth = true): static
+    {
+        $middlewares = array_merge(
+            $this->config('middlewares'),
+            $auth ? $this->config('auth_middlewares') : $this->config('guest_middlewares')
+        );
+        Route::middleware($middlewares)->prefix($this->routePrefix())->group(fn() => call_user_func($closure));
+
+        return $this;
     }
 }
