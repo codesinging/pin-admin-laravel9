@@ -16,6 +16,11 @@ class Application
     const VERSION = '1.0.0';
 
     /**
+     * PinAdmin 标记
+     */
+    const LABEL = 'admin';
+
+    /**
      * 返回 PinAdmin 版本号
      *
      * @return string
