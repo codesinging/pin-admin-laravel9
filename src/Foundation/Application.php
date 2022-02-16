@@ -315,7 +315,7 @@ class Application
      *
      * @return void
      */
-    protected function initConfig()
+    private function initConfig()
     {
         if (file_exists($file = $this->path('config/app.php'))) {
             $items = require($file);
