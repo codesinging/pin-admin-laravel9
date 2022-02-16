@@ -28,6 +28,11 @@ use Illuminate\Support\Facades\Facade;
  * @method static string getNamespace(string ...$paths)
  * @method static Application boot(string $name)
  * @method static Application|Repository|mixed config(array|string $key = null, mixed $default = null)
+ * @method static string routePrefix()
+ * @method static string link(string $path = '', array $parameters = [])
+ * @method static string asset(?string ...$paths)
+ * @method static string mix(string $path)
+ * @method static string homeUrl(bool $withDomain = false)
  */
 class Admin extends Facade
 {

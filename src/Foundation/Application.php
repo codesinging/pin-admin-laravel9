@@ -6,7 +6,9 @@
 
 namespace CodeSinging\PinAdmin\Foundation;
 
+use Exception;
 use Illuminate\Config\Repository;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 
 class Application
@@ -136,11 +138,11 @@ class Application
     /**
      * 返回 PinAdmin 应用根目录或指定子目录
      *
-     * @param ...$paths
+     * @param string|null ...$paths
      *
      * @return string
      */
-    public function rootDirectory(...$paths): string
+    public function rootDirectory(?string ...$paths): string
     {
         array_unshift($paths, self::ROOT_DIRECTORY);
         return implode(DIRECTORY_SEPARATOR, $paths);
@@ -149,11 +151,11 @@ class Application
     /**
      * 返回 PinAdmin 应用根路径或指定子路径
      *
-     * @param ...$paths
+     * @param string|null ...$paths
      *
      * @return string
      */
-    public function rootPath(...$paths): string
+    public function rootPath(?string ...$paths): string
     {
         return base_path($this->rootDirectory(...$paths));
     }
@@ -161,11 +163,11 @@ class Application
     /**
      * 返回 PinAdmin 包路径
      *
-     * @param ...$paths
+     * @param string|null ...$paths
      *
      * @return string
      */
-    public function packagePath(...$paths): string
+    public function packagePath(?string ...$paths): string
     {
         array_unshift($paths, dirname(__DIR__, 2));
         return implode(DIRECTORY_SEPARATOR, $paths);
@@ -213,7 +215,7 @@ class Application
      *
      * @return string
      */
-    public function directory(string ...$paths): string
+    public function directory(?string ...$paths): string
     {
         array_unshift($paths, $this->directory);
         return implode('/', $paths);
@@ -226,7 +228,7 @@ class Application
      *
      * @return string
      */
-    public function path(string ...$paths): string
+    public function path(?string ...$paths): string
     {
         return base_path($this->directory(...$paths));
     }
@@ -238,7 +240,7 @@ class Application
      *
      * @return string
      */
-    public function appDirectory(string ...$paths): string
+    public function appDirectory(?string ...$paths): string
     {
         array_unshift($paths, $this->appDirectory);
         return implode('/', $paths);
@@ -251,7 +253,7 @@ class Application
      *
      * @return string
      */
-    public function appPath(string ...$paths): string
+    public function appPath(?string ...$paths): string
     {
         return app_path($this->appDirectory(...$paths));
     }
@@ -263,7 +265,7 @@ class Application
      *
      * @return string
      */
-    public function publicDirectory(string ...$paths): string
+    public function publicDirectory(?string ...$paths): string
     {
         array_unshift($paths, $this->publicDirectory);
         return implode('/', $paths);
@@ -276,7 +278,7 @@ class Application
      *
      * @return string
      */
-    public function publicPath(string ...$paths): string
+    public function publicPath(?string ...$paths): string
     {
         return public_path($this->publicDirectory(...$paths));
     }
@@ -284,11 +286,11 @@ class Application
     /**
      * 返回 PinAdmin 应用类命名空间
      *
-     * @param ...$paths
+     * @param string|null ...$paths
      *
      * @return string
      */
-    public function getNamespace(...$paths): string
+    public function getNamespace(?string ...$paths): string
     {
         return implode('\\', ['App', str_replace('/', '\\', $this->appDirectory(...$paths))]);
     }
@@ -358,5 +360,76 @@ class Application
             return $this;
         }
         return $this->config->get($key, $default);
+    }
+
+    /**
+     * 返回 PinAdmin 应用路由前缀
+     *
+     * @return string
+     */
+    public function routePrefix(): string
+    {
+        return $this->config('route_prefix', $this->name());
+    }
+
+    /**
+     * 获取 PinAdmin 应用的绝对链接地址
+     *
+     * @param string $path
+     * @param array $parameters
+     *
+     * @return string
+     */
+    public function link(string $path = '', array $parameters = []): string
+    {
+        $link = '/' . $this->routePrefix();
+        $path and $link .= Str::start($path, '/');
+        $parameters and $link .= '?' . http_build_query($parameters);
+
+        return $link;
+    }
+
+    /**
+     * 返回当前应用的静态文件地址
+     *
+     * @param string|null ...$paths
+     *
+     * @return string
+     */
+    public function asset(?string ...$paths): string
+    {
+        if (Str::startsWith($path = implode('/', $paths), ['https://', 'http://', '//', '/'])) {
+            return $path;
+        }
+
+        return '/' . $this->publicDirectory(...$paths);
+    }
+
+    /**
+     * 返回带版本号的静态资源文件路径
+     *
+     * @param string $path
+     *
+     * @return string
+     * @throws Exception
+     */
+    public function mix(string $path): string
+    {
+        return mix($path, rtrim($this->asset(), '/'));
+    }
+
+    /**
+     * 返回当前 PinAdmin 应用首页地址
+     *
+     * @param bool $withDomain
+     *
+     * @return string
+     */
+    public function homeUrl(bool $withDomain = false): string
+    {
+        if ($withDomain) {
+            return (Request::secure() ? 'https://' : 'http://') . Request::server('HTTP_HOST') . '/' . $this->routePrefix();
+        }
+        return '/' . $this->routePrefix();
     }
 }

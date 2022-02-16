@@ -97,7 +97,7 @@ class ApplicationTest extends TestCase
         self::assertEquals('admins/admin/js/app.js', (new Application('admin'))->publicDirectory('js', 'app.js'));
     }
 
-    public function testPublicPublic()
+    public function testPublicPath()
     {
         self::assertEquals(public_path('admins/admin'), (new Application('admin'))->publicPath());
         self::assertEquals(public_path('admins/admin/js'), (new Application('admin'))->publicPath('js'));
@@ -128,5 +128,34 @@ class ApplicationTest extends TestCase
         self::assertEquals('Title', $app->config('title'));
         self::assertNull($app->config('key_not_exists'));
         self::assertEquals('Default', $app->config('key_not_exists', 'Default'));
+    }
+
+    public function testRoutePrefix()
+    {
+        $app = new Application('admin');
+
+        self::assertEquals('admin', $app->routePrefix());
+
+        $app->config(['route_prefix' => 'admin123']);
+        self::assertEquals('admin123', $app->routePrefix());
+    }
+
+    public function testLink()
+    {
+        self::assertEquals('/admin', (new Application('admin'))->link());
+        self::assertEquals('/admin/home', (new Application('admin'))->link('home'));
+        self::assertEquals('/admin/home?id=1', (new Application('admin'))->link('home', ['id' => 1]));
+    }
+
+    public function testAsset()
+    {
+        self::assertEquals('/static/app.js', (new Application())->asset('/static/app.js'));
+        self::assertEquals('/admins/admin', (new Application('admin'))->asset());
+        self::assertEquals('/admins/admin/js/app.js', (new Application('admin'))->asset('js/app.js'));
+    }
+
+    public function testHomeUrl()
+    {
+        self::assertEquals('/admin', (new Application('admin'))->homeUrl());
     }
 }
