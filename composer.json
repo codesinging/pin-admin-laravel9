@@ -1,0 +1,29 @@
+{
+    "name": "codesinging/pin-admin",
+    "description": "A Laravel package to rapidly build administrative applications",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "codesinging",
+            "email": "codesinging@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "laravel/framework": "^9.1"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "CodeSinging\\PinAdmin\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    }
+}
