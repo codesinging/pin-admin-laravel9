@@ -36,4 +36,10 @@ class ApplicationTest extends TestCase
         self::assertEquals(base_path('admins' . DIRECTORY_SEPARATOR . 'admin'), (new Application())->rootPath('admin'));
         self::assertEquals(base_path('admins' . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'config'), (new Application())->rootPath('admin', 'config'));
     }
+
+    public function testPackagePath()
+    {
+        self::assertEquals(dirname(__DIR__), (new Application())->packagePath('tests'));
+        self::assertEquals(__DIR__, (new Application())->packagePath('tests', 'Foundation'));
+    }
 }

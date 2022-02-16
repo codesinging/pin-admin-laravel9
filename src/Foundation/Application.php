@@ -87,4 +87,18 @@ class Application
     {
         return base_path($this->rootDirectory(...$paths));
     }
+
+    /**
+     * 返回 PinAdmin 包路径
+     *
+     * @param ...$paths
+     *
+     * @return string
+     */
+    public function packagePath(...$paths): string
+    {
+        array_unshift($paths, dirname(__DIR__, 2));
+        return implode(DIRECTORY_SEPARATOR, $paths);
+    }
+
 }
