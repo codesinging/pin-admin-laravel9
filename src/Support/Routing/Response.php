@@ -4,7 +4,7 @@
  * Github: https://github.com/codesinging
  */
 
-namespace CodeSinging\PinAdmin\Routing;
+namespace CodeSinging\PinAdmin\Support\Routing;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
@@ -13,7 +13,7 @@ use Illuminate\Support\Collection;
 class Response
 {
     /**
-     * 返回正确的 json 响应信息
+     * 返回正确的 json 响应
      *
      * @param array|string|Collection|Model|null $message
      * @param Model|array|Collection|null $data
@@ -28,7 +28,7 @@ class Response
     }
 
     /**
-     * 返回错误的 json 响应信息
+     * 返回错误的 json 响应
      *
      * @param string|null $message
      * @param int $code
