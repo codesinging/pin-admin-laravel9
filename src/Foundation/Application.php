@@ -531,8 +531,8 @@ class Application
     protected function routeGroup(Closure $closure, bool $auth = true): static
     {
         $middlewares = array_merge(
-            $this->config('middlewares'),
-            $auth ? $this->config('auth_middlewares') : $this->config('guest_middlewares')
+            $this->config('middlewares', []),
+            $auth ? $this->config('auth_middlewares', []) : $this->config('guest_middlewares', [])
         );
         Route::middleware($middlewares)->prefix($this->routePrefix())->group(fn() => call_user_func($closure));
 
