@@ -99,7 +99,7 @@ class Application
     /**
      * PinAdmin 应用索引文件
      */
-    const INDEX_FILENAME = 'indexes.php';
+    const INDEX_FILENAME = 'apps.php';
 
     /**
      * PinAdmin 应用索引
