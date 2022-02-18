@@ -9,7 +9,7 @@ namespace CodeSinging\PinAdmin\Models;
 use CodeSinging\PinAdmin\Support\Model\AuthModel;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
-class User extends AuthModel
+class AuthUser extends AuthModel
 {
     protected $fillable = [
         'name',
@@ -28,11 +28,7 @@ class User extends AuthModel
     protected function password(): Attribute
     {
         return new Attribute(
-            get: function (string $value = null){
-                if (!empty($value)){
-                    return bcrypt($value);
-                }
-            }
+            set: fn($value) => bcrypt($value)
         );
     }
 }
