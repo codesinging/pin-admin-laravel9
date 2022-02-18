@@ -8,7 +8,7 @@ namespace __DUMMY_NAMESPACE__\Models;
 
 use CodeSinging\PinAdmin\Models\AuthUser;
 
-class __DUMMY_STUDLY_NAME__Auth__User extends AuthUser
+class __DUMMY_STUDLY_NAME__User extends AuthUser
 {
     /**
      * 模型关联表名
