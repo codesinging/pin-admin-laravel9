@@ -519,47 +519,4 @@ class Application
         }
         return '/' . $this->routePrefix();
     }
-
-    /**
-     * 设置 PinAdmin 应用路由组
-     *
-     * @param Closure $closure
-     * @param bool $auth
-     *
-     * @return $this
-     */
-    protected function routeGroup(Closure $closure, bool $auth = true): static
-    {
-        $middlewares = array_merge(
-            $this->config('middlewares', []),
-            $auth ? $this->config('auth_middlewares', []) : $this->config('guest_middlewares', [])
-        );
-        Route::middleware($middlewares)->prefix($this->routePrefix())->group(fn() => call_user_func($closure));
-
-        return $this;
-    }
-
-    /**
-     * 设置 PinAdmin 应用需要认证的路由
-     *
-     * @param Closure $closure
-     *
-     * @return $this
-     */
-    public function authRoutes(Closure $closure): static
-    {
-        return $this->routeGroup($closure);
-    }
-
-    /**
-     * 设置 PinAdmin 应用无需认证的路由
-     *
-     * @param Closure $closure
-     *
-     * @return $this
-     */
-    public function guestRoutes(Closure $closure): static
-    {
-        return $this->routeGroup($closure, false);
-    }
 }

@@ -39,8 +39,6 @@ use Illuminate\Support\Facades\Facade;
  * @method static string asset(?string ...$paths)
  * @method static string mix(string $path)
  * @method static string homeUrl(bool $withDomain = false)
- * @method static Application authRoutes(Closure $closure)
- * @method static Application guestRoutes(Closure $closure)
  */
 class Admin extends Facade
 {

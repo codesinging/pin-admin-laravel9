@@ -13,6 +13,7 @@ use CodeSinging\PinAdmin\Middleware\Auth;
 use CodeSinging\PinAdmin\Middleware\Guest;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Route;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -121,7 +122,13 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     private function registerRoutes()
     {
         foreach ($this->applications as $application) {
-            $this->loadRoutesFrom($application->path('routes', 'web.php'));
+            Route::prefix($application->routePrefix())
+                ->middleware($application->config('middlewares.guest'))
+                ->group(fn() => $this->loadRoutesFrom($application->path('routes', 'guest.php')));
+
+            Route::prefix($application->routePrefix())
+                ->middleware($application->config('middlewares.auth'))
+                ->group(fn() => $this->loadRoutesFrom($application->path('routes', 'auth.php')));
         }
     }
 
@@ -155,13 +162,14 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     /**
      * 设置应用认证守卫和提供者配置
+     *
      * @return void
      */
     private function setAuthenticationConfig()
     {
         foreach ($this->applications as $application) {
-            Config::set('auth.guards.'. $application->guard(), $application->config('auth_guard'));
-            Config::set('auth.providers.'. $application->config('auth_guard.provider'), $application->config('auth_provider'));
+            Config::set('auth.guards.' . $application->guard(), $application->config('auth_guard'));
+            Config::set('auth.providers.' . $application->config('auth_guard.provider'), $application->config('auth_provider'));
         }
     }
 }
