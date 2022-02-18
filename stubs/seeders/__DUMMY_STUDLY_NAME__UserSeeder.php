@@ -6,7 +6,7 @@
 
 namespace __DUMMY_NAMESPACE__\Seeders;
 
-use __DUMMY_NAMESPACE__\Models\__DUMMY_STUDLY_NAME__Auth__User;
+use __DUMMY_NAMESPACE__\Models\__DUMMY_STUDLY_NAME__User;
 use Illuminate\Database\Seeder;
 
 class __DUMMY_STUDLY_NAME__UserSeeder extends Seeder
@@ -18,7 +18,7 @@ class __DUMMY_STUDLY_NAME__UserSeeder extends Seeder
      */
     public function run()
     {
-        __DUMMY_STUDLY_NAME__Auth__User::create([
+        __DUMMY_STUDLY_NAME__User::create([
             'name' => '__DUMMY_NAME___user',
             'password' => 'admin.123'
         ]);
