@@ -45,9 +45,9 @@ class CreateCommandTest extends TestCase
     public function testCreateRoutes()
     {
         Admin::boot('admin');
-        self::assertFileDoesNotExist(Admin::path('routes', 'web.php'));
+        self::assertFileDoesNotExist(Admin::path('routes', 'auth.php'));
         $this->artisan('admin:create admin')->run();
-        self::assertFileExists(Admin::path('routes', 'web.php'));
+        self::assertFileExists(Admin::path('routes', 'auth.php'));
     }
 
     public function testCreateConfigs()
