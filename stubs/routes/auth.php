@@ -4,11 +4,9 @@
  * Github: https://github.com/codesinging
  */
 
-use CodeSinging\PinAdmin\Foundation\Admin;
 use Illuminate\Support\Facades\Route;
+use __DUMMY_NAMESPACE__\Controllers;
 
 // 本文件中的路由需要认证才能访问
 
-Route::get('/', function () {
-    return Admin::name();
-});
+Route::get('/', [Controllers\IndexController::class, 'index']);

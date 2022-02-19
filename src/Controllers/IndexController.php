@@ -6,13 +6,14 @@
 
 namespace CodeSinging\PinAdmin\Controllers;
 
-use CodeSinging\PinAdmin\Foundation\Admin;
 use CodeSinging\PinAdmin\Support\Routing\Controller;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 
 class IndexController extends Controller
 {
-    public function index()
+    public function index(): Factory|View
     {
-        return Admin::name();
+        return admin_page('index.index');
     }
 }

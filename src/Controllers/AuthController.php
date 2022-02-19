@@ -6,13 +6,14 @@
 
 namespace CodeSinging\PinAdmin\Controllers;
 
-use CodeSinging\PinAdmin\Foundation\Admin;
 use CodeSinging\PinAdmin\Support\Routing\Controller;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 
 class AuthController extends Controller
 {
-    public function index()
+    public function index(): View|Factory
     {
-        return Admin::name();
+        return admin_page('auth.index');
     }
 }
