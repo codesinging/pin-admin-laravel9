@@ -18,6 +18,8 @@ class __DUMMY_STUDLY_NAME__UserSeeder extends Seeder
      */
     public function run()
     {
+        __DUMMY_STUDLY_NAME__User::truncate();
+
         __DUMMY_STUDLY_NAME__User::create([
             'name' => '__DUMMY_NAME___user',
             'password' => 'admin.123'
