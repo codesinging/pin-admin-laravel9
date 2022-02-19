@@ -8,6 +8,8 @@ namespace CodeSinging\PinAdmin\Foundation;
 
 use Closure;
 use Illuminate\Config\Repository;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -39,6 +41,12 @@ use Illuminate\Support\Facades\Facade;
  * @method static string asset(?string ...$paths)
  * @method static string mix(string $path)
  * @method static string homeUrl(bool $withDomain = false)
+ * @method static string packageTemplate(string $path)
+ * @method static string template(string $path)
+ * @method static Factory|View packageView(string $view = null, array $data = [], array $mergeData = [])
+ * @method static Factory|View view(string $view = null, array $data = [], array $mergeData = [])
+ * @method static Factory|View packagePage(string $path)
+ * @method static Factory|View page(string $path)
  */
 class Admin extends Facade
 {

@@ -186,4 +186,14 @@ class ApplicationTest extends TestCase
     {
         self::assertEquals('/admin', (new Application('admin'))->homeUrl());
     }
+
+    public function testPackageTemplate()
+    {
+        self::assertEquals('admin::layout.app', (new Application())->packageTemplate('layout.app'));
+    }
+
+    public function testTemplate()
+    {
+        self::assertEquals('admin_admin::layout.app', (new Application('admin'))->template('layout.app'));
+    }
 }
