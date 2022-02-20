@@ -9,8 +9,12 @@ namespace CodeSinging\PinAdmin\Foundation;
 use Closure;
 use Exception;
 use Illuminate\Config\Repository;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -561,5 +565,25 @@ class Application
     {
         $path = str_replace('.', '/', $path);
         return $this->view('public/page', compact('path'));
+    }
+
+    /**
+     * 返回认证实例
+     *
+     * @return Guard|StatefulGuard
+     */
+    public function auth(): Guard|StatefulGuard
+    {
+        return Auth::guard($this->guard());
+    }
+
+    /**
+     * 返回认证用户
+     *
+     * @return Authenticatable|null
+     */
+    public function user(): ?Authenticatable
+    {
+        return $this->auth()->user();
     }
 }

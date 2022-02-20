@@ -8,6 +8,9 @@ namespace CodeSinging\PinAdmin\Foundation;
 
 use Closure;
 use Illuminate\Config\Repository;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Facade;
@@ -44,6 +47,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static string template(string $path)
  * @method static Factory|View view(string $view = null, array $data = [], array $mergeData = [])
  * @method static Factory|View page(string $path)
+ * @method static Guard|StatefulGuard auth()
+ * @method static Authenticatable|null user()
  */
 class Admin extends Facade
 {
