@@ -1,6 +1,6 @@
 import axios from 'axios'
 import config from '../config/http'
-import state from "../store/state"
+import {useState} from "../store/state"
 import message from "./message"
 
 const defaultLabel = 'loading'
@@ -9,19 +9,19 @@ const http = axios.create(config)
 
 // 设置请求状态
 const setStates = config => {
-    state().set(defaultLabel)
+    useState().set(defaultLabel)
 
     if (config?.label) {
-        state().set(config.label)
+        useState().set(config.label)
     }
 }
 
 // 恢复请求状态
 const unsetState = config => {
-    state().unset(defaultLabel)
+    useState().unset(defaultLabel)
 
     if (config?.label) {
-        state().unset(config.label)
+        useState().unset(config.label)
     }
 }
 
