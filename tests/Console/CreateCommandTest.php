@@ -37,9 +37,11 @@ class CreateCommandTest extends TestCase
 
         $this->artisan('admin:create admin')->run();
 
-        self::assertDirectoryExists(Admin::rootPath());
-        self::assertDirectoryExists(Admin::rootAppPath());
-        self::assertDirectoryExists(Admin::rootPublicPath());
+        Admin::boot('admin');
+
+        self::assertDirectoryExists(Admin::path());
+        self::assertDirectoryExists(Admin::appPath());
+        self::assertDirectoryExists(Admin::publicPath());
     }
 
     public function testCreateRoutes()
@@ -104,5 +106,14 @@ class CreateCommandTest extends TestCase
     {
         $this->artisan('admin:create admin')->run();
         $this->assertNull(DB::table('admin_users')->first());
+    }
+
+    public function testCreateResources()
+    {
+        $this->artisan('admin:create admin')->run();
+        Admin::boot('admin');
+        self::assertDirectoryExists(Admin::publicPath());
+        self::assertDirectoryExists(Admin::path('resources'));
+        self::assertFileExists(Admin::path('resources/env.js'));
     }
 }

@@ -10,12 +10,14 @@ use CodeSinging\PinAdmin\Foundation\Application;
 use CodeSinging\PinAdmin\Support\Console\ArrayHelpers;
 use CodeSinging\PinAdmin\Support\Console\Command;
 use CodeSinging\PinAdmin\Support\Console\FileHelpers;
+use CodeSinging\PinAdmin\Support\Console\PackageHelpers;
 use Illuminate\Support\Str;
 
 class CreateCommand extends Command
 {
     use FileHelpers;
     use ArrayHelpers;
+    use PackageHelpers;
 
     /**
      * The name and signature of the console command.
@@ -37,6 +39,20 @@ class CreateCommand extends Command
      * @var array
      */
     protected array $indexes = [];
+
+    /**
+     * @var array|string[]
+     */
+    protected array $devDependencies = [
+        'vue' => '^3.2.29',
+        'tailwindcss' => '^3.0.18',
+        'element-plus' => '^2.0.1',
+        'pinia' => '^2.0.11',
+        'axios' => '^0.25.0',
+        'vue-loader' => '^16.2.0',
+        'postcss' => '^8.1.14',
+        'autoprefixer' => '^10.4.2',
+    ];
 
     /**
      * 应用实例
@@ -128,6 +144,8 @@ class CreateCommand extends Command
         $this->createMigrations();
         $this->createSeeders();
         $this->initDatabase();
+        $this->createResources();
+        $this->updatePackageJson();
         $this->updateIndexes();
     }
 
@@ -229,6 +247,40 @@ class CreateCommand extends Command
                 '--class' => $this->app->getNamespace('Seeders/DatabaseSeeder'),
             ]);
         }
+    }
+
+    /**
+     * @return void
+     */
+    private function createResources()
+    {
+        $this->title('Publishing application resources');
+
+        $this->copyFile(
+            $this->app->packagePath('stubs/resources/env.js'),
+            $this->app->path('resources/env.js'),
+            $this->stubReplaces()
+        );
+
+        $this->copyDirectory($this->app->packagePath('public'), $this->app->publicPath());
+        $this->copyDirectory($this->app->packagePath('resources'), $this->app->path('resources'));
+    }
+
+    /**
+     * @return void
+     */
+    private function updatePackageJson()
+    {
+        $webpack = $this->app->directory('resources/build/webpack.mix.js');
+        $script = $this->app->label($this->app->name(), ':');
+
+        $this->addPackageScripts([
+            'dev:' . $script => "mix --mix-config=$webpack",
+            'watch:' . $script => "mix watch --mix-config=$webpack",
+            'prod:' . $script => "mix --production --mix-config=$webpack",
+        ]);
+
+        $this->addDevDependencies($this->devDependencies);
     }
 
     /**

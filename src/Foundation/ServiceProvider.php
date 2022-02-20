@@ -156,7 +156,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->loadViewsFrom(Admin::packagePath('resources', 'views'), Admin::label());
 
         foreach ($this->applications as $application) {
-            $this->loadViewsFrom($application->path('views'), Admin::label($application->name(), '_'));
+            $this->loadViewsFrom($application->path('resources/views'), Admin::label($application->name(), '_'));
         }
     }
 

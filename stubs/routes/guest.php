@@ -10,3 +10,4 @@ use __DUMMY_NAMESPACE__\Controllers;
 // 本文件中的路由无需认证就能访问
 
 Route::get('auth', [Controllers\AuthController::class, 'index']);
+Route::post('auth/login', [Controllers\AuthController::class, 'login']);
