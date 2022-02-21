@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             __DUMMY_STUDLY_NAME__UserSeeder::class,
+            __DUMMY_STUDLY_NAME__MenuSeeder::class,
         ]);
     }
 }
