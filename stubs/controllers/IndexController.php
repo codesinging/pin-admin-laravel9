@@ -6,7 +6,9 @@
 
 namespace __DUMMY_NAMESPACE__\Controllers;
 
-class IndexController extends \CodeSinging\PinAdmin\Controllers\IndexController
+use CodeSinging\PinAdmin\Controllers\IndexController as AdminIndexController;
+
+class IndexController extends AdminIndexController
 {
 
 }

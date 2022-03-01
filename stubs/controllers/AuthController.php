@@ -6,7 +6,9 @@
 
 namespace __DUMMY_NAMESPACE__\Controllers;
 
-class AuthController extends \CodeSinging\PinAdmin\Controllers\AuthController
+use CodeSinging\PinAdmin\Controllers\AuthController as AdminAuthController;
+
+class AuthController extends AdminAuthController
 {
 
 }
