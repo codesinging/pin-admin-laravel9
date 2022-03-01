@@ -14,7 +14,6 @@ class Menu extends Model
     use NodeTrait;
 
     protected $fillable = [
-        'pid',
         'name',
         'url',
         'path',

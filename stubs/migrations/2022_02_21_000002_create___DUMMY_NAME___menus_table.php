@@ -23,9 +23,9 @@ class Create__DUMMY_STUDLY_NAME__MenusTable extends Migration
             $table->nestedSet();
 
             $table->string('name');
-            $table->string('icon')->nullable();
             $table->string('path')->nullable();
             $table->string('url')->nullable();
+            $table->string('icon')->nullable();
             $table->bigInteger('sort')->default(0);
             $table->boolean('is_home')->default(false);
             $table->boolean('is_opened')->default(false);
