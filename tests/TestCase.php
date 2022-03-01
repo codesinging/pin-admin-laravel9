@@ -8,6 +8,7 @@ namespace Tests;
 
 use CodeSinging\PinAdmin\Foundation\ServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Kalnoy\Nestedset\NestedSetServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -17,6 +18,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     {
         return [
             ServiceProvider::class,
+            NestedSetServiceProvider::class,
         ];
     }
 
